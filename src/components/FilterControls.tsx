@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Filter, RotateCcw, SlidersHorizontal } from 'lucide-react';
+import { RotateCcw, SlidersHorizontal } from 'lucide-react';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -18,9 +18,7 @@ interface FilterControlsProps {
 
 export interface FilterOptions {
   leetcodeSolved: { min: number; max: number } | null;
-  hackerrankStars: number | null;
-  problemsRange: 'all' | 'beginner' | 'intermediate' | 'advanced';
-  showOnlineOnly: boolean;
+  hackerrankBadges: { min: number; max: number } | null;
 }
 
 export const FilterControls = ({ onFilterChange, currentFilters }: FilterControlsProps) => {
@@ -43,38 +41,41 @@ export const FilterControls = ({ onFilterChange, currentFilters }: FilterControl
     
     onFilterChange({
       ...currentFilters,
-      leetcodeSolved,
-      problemsRange: range as FilterOptions['problemsRange']
+      leetcodeSolved
     });
   };
 
-  const handleHackerRankFilter = (stars: number | null) => {
+  const handleHackerRankBadgeFilter = (range: string) => {
+    let hackerrankBadges = null;
+    
+    switch (range) {
+      case 'few':
+        hackerrankBadges = { min: 1, max: 3 };
+        break;
+      case 'moderate':
+        hackerrankBadges = { min: 4, max: 8 };
+        break;
+      case 'many':
+        hackerrankBadges = { min: 9, max: 9999 };
+        break;
+      default:
+        hackerrankBadges = null;
+    }
+    
     onFilterChange({
       ...currentFilters,
-      hackerrankStars: stars
-    });
-  };
-
-  const handleOnlineFilter = () => {
-    onFilterChange({
-      ...currentFilters,
-      showOnlineOnly: !currentFilters.showOnlineOnly
+      hackerrankBadges
     });
   };
 
   const resetFilters = () => {
     onFilterChange({
       leetcodeSolved: null,
-      hackerrankStars: null,
-      problemsRange: 'all',
-      showOnlineOnly: false
+      hackerrankBadges: null
     });
   };
 
-  const hasActiveFilters = currentFilters.leetcodeSolved || 
-                          currentFilters.hackerrankStars || 
-                          currentFilters.problemsRange !== 'all' || 
-                          currentFilters.showOnlineOnly;
+  const hasActiveFilters = currentFilters.leetcodeSolved || currentFilters.hackerrankBadges;
 
   return (
     <div className="flex items-center space-x-2">
@@ -104,19 +105,18 @@ export const FilterControls = ({ onFilterChange, currentFilters }: FilterControl
           </DropdownMenuItem>
           
           <DropdownMenuSeparator />
-          <DropdownMenuLabel>HackerRank Stars</DropdownMenuLabel>
-          <DropdownMenuItem onClick={() => handleHackerRankFilter(null)}>
-            All Stars
+          <DropdownMenuLabel>HackerRank Badges</DropdownMenuLabel>
+          <DropdownMenuItem onClick={() => handleHackerRankBadgeFilter('all')}>
+            All Badges
           </DropdownMenuItem>
-          {[1, 2, 3, 4, 5].map((star) => (
-            <DropdownMenuItem key={star} onClick={() => handleHackerRankFilter(star)}>
-              {star}+ Stars
-            </DropdownMenuItem>
-          ))}
-          
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleOnlineFilter}>
-            {currentFilters.showOnlineOnly ? '✓' : ''} Online Users Only
+          <DropdownMenuItem onClick={() => handleHackerRankBadgeFilter('few')}>
+            Few (1-3)
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleHackerRankBadgeFilter('moderate')}>
+            Moderate (4-8)
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleHackerRankBadgeFilter('many')}>
+            Many (9+)
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
