@@ -53,7 +53,7 @@ const userProfiles = [
     "leetcode": "JayasreeDesagiri"
   },
   {
-    "name": "DUGASANI MEGHANA",
+    "name": "Dugasani Meghana",
     "hackerrank": "meghanadugasani",
     "leetcode": "meghanadugasani"
   },
@@ -93,7 +93,7 @@ const userProfiles = [
     "leetcode": null
   },
   {
-    "name": "K.Sankar",
+    "name": "Sankar K",
     "hackerrank": "sankarkrishnan21",
     "leetcode": null
   },
@@ -108,7 +108,7 @@ const userProfiles = [
     "leetcode": "kumaran_z"
   },
   {
-    "name": "Lalith kumar s",
+    "name": "Lalith Kumar S",
     "hackerrank": "lalithkumarfl",
     "leetcode": null
   },
@@ -128,7 +128,7 @@ const userProfiles = [
     "leetcode": "Maegesh"
   },
   {
-    "name": "MANDHA PRATHYUSHA",
+    "name": "Mandha Prathyusha",
     "hackerrank": "202U1A0555",
     "leetcode": "prathyusha_315"
   },
@@ -138,12 +138,12 @@ const userProfiles = [
     "leetcode": "pradeepkumar2406"
   },
   {
-    "name": "pujannagari pallavi",
+    "name": "Pujannagari Pallavi",
     "hackerrank": "21HR1A0598",
     "leetcode": "pujannagari_pallavi98"
   },
   {
-    "name": "Purva kaiwart",
+    "name": "Purva Kaiwart",
     "hackerrank": "purvakaiwart9896",
     "leetcode": "misspurva"
   },
@@ -153,7 +153,7 @@ const userProfiles = [
     "leetcode": "Raju_Gowtham"
   },
   {
-    "name": "RAKSHITHA BS",
+    "name": "Rakshitha BS",
     "hackerrank": "rakshithabs2002",
     "leetcode": null
   },
@@ -168,14 +168,14 @@ const userProfiles = [
     "leetcode": "Sakepuram_Vinaya"
   },
   {
-    "name": "SUJITH KUMAR S",
+    "name": "Sujith Kumar S",
     "hackerrank": "skempire",
     "leetcode": "skempire"
   },
   {
-    "name": "Vaka Kiran reddy",
+    "name": "Vaka Kiran Reddy",
     "hackerrank": "kiranreddyvaka4",
-    "leetcode": null
+    "leetcode": "vaka_kiran_reddy"
   },
   {
     "name": "Visnu Prian M C",
@@ -183,7 +183,7 @@ const userProfiles = [
     "leetcode": null
   },
   {
-    "name": "Yashwanth malladi",
+    "name": "Yashwanth Malladi",
     "hackerrank": "yashwanthmallad1",
     "leetcode": null
   },
