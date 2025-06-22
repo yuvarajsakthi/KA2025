@@ -118,13 +118,13 @@ const Index = () => {
                   <Star className="w-4 h-4" />
                   <span>HackerRank Badges</span>
                 </div>
-                <Link 
+                {/* <Link 
                   to="/test-badges" 
                   className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
                 >
                   <TestTube className="w-4 h-4" />
                   <span>Test Badges</span>
-                </Link>
+                </Link> */}
               </div>
               <ThemeToggle />
             </div>
@@ -231,13 +231,13 @@ const Index = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Made with ❤️ by{' '}
+              Developed by{' '}
               <span className="font-semibold text-slate-700 dark:text-slate-300">
                 Yuvaraj
               </span>
             </p>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
-              KA2k25 - Competitive Programming Leaderboard
+              &copy; {new Date().getFullYear()} KA2k25 - Competitive Programming Leaderboard
             </p>
           </div>
         </div>
