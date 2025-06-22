@@ -2,6 +2,8 @@
   "name": "KA2025",
   "private": true,
   "version": "1.0.0",
+  "author": "Yuvaraj",
+  "description": "Competitive Programming Leaderboard - Track LeetCode and HackerRank progress",
   "type": "module",
   "scripts": {
     "dev": "vite",

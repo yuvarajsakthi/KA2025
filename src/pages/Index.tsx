@@ -7,13 +7,16 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { User } from "@/types/User";
 import { mockUsers } from "@/data/mockUsers";
 import { profileFetcher } from "@/services/profileFetcher";
-import { Trophy, Code, Star, Users } from "lucide-react";
+import { Trophy, Code, Star, Users, TestTube } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [users, setUsers] = useState<User[]>(mockUsers);
   const [filteredUsers, setFilteredUsers] = useState<User[]>(mockUsers);
+  const [isLoading, setIsLoading] = useState(true);
+  const [fetchedCount, setFetchedCount] = useState(0);
   const [filters, setFilters] = useState<FilterOptions>({
     leetcodeSolved: null,
     hackerrankBadges: null
@@ -22,21 +25,32 @@ const Index = () => {
   // Fetch real data for all users when component loads
   useEffect(() => {
     const fetchAllUserData = async () => {
+      setIsLoading(true);
+      setFetchedCount(0);
       console.log('Fetching real data for users...');
-      const updatedUsers = await Promise.all(
-        mockUsers.map(async (user) => {
+      
+      try {
+        const updatedUsers: User[] = [];
+        
+        for (let i = 0; i < mockUsers.length; i++) {
+          const user = mockUsers[i];
           try {
             const updates = await profileFetcher.fetchUserStats(user);
-            return { ...user, ...updates };
+            updatedUsers.push({ ...user, ...updates });
           } catch (error) {
             console.error(`Error fetching data for ${user.name}:`, error);
-            return { ...user, fetchError: 'Failed to fetch data' };
+            updatedUsers.push({ ...user, fetchError: 'Failed to fetch data' });
           }
-        })
-      );
-      
-      console.log('Updated users with real data:', updatedUsers);
-      setUsers(updatedUsers);
+          setFetchedCount(i + 1);
+        }
+        
+        console.log('Updated users with real data:', updatedUsers);
+        setUsers(updatedUsers);
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      } finally {
+        setIsLoading(false);
+      }
     };
 
     fetchAllUserData();
@@ -104,6 +118,13 @@ const Index = () => {
                   <Star className="w-4 h-4" />
                   <span>HackerRank Badges</span>
                 </div>
+                <Link 
+                  to="/test-badges" 
+                  className="flex items-center space-x-2 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                >
+                  <TestTube className="w-4 h-4" />
+                  <span>Test Badges</span>
+                </Link>
               </div>
               <ThemeToggle />
             </div>
@@ -125,7 +146,13 @@ const Index = () => {
               <div className="flex items-center justify-center mb-1">
                 <Users className="w-4 h-4 text-blue-500 mr-1" />
               </div>
-              <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{filteredUsers.length}</p>
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              ) : (
+                <p className="text-lg font-bold text-slate-900 dark:text-slate-100">{filteredUsers.length}</p>
+              )}
               <p className="text-xs text-slate-600 dark:text-slate-400">Total Users</p>
             </div>
           </div>
@@ -133,21 +160,63 @@ const Index = () => {
 
         <div className="mb-8">
           <p className="text-slate-600 dark:text-slate-400">
-            Leaderboard sorted by LeetCode problems solved ({filteredUsers.length} profiles)
+            {isLoading ? (
+              <span className="flex items-center">
+                <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mr-2"></div>
+                Loading leaderboard data...
+              </span>
+            ) : (
+              `Leaderboard sorted by LeetCode problems solved (${filteredUsers.length} profiles)`
+            )}
           </p>
         </div>
 
-        {/* Leaderboard Cards */}
-        <div className="space-y-4">
-          {filteredUsers.map((user, index) => (
-            <LeaderboardCard
-              key={user.id}
-              user={user}
-              rank={index + 1}
-              onClick={() => handleUserClick(user)}
-            />
-          ))}
-        </div>
+        {/* Loading State */}
+        {isLoading ? (
+          <div className="flex flex-col items-center justify-center py-16">
+            <div className="relative">
+              <div className="w-16 h-16 border-4 border-blue-200 dark:border-blue-800 rounded-full animate-spin">
+                <div className="absolute top-0 left-0 w-16 h-16 border-4 border-transparent border-t-blue-600 dark:border-t-blue-400 rounded-full animate-spin"></div>
+              </div>
+            </div>
+            <div className="mt-6 text-center">
+              <h3 className="text-lg font-semibold text-slate-700 dark:text-slate-300 mb-2">
+                Fetching User Data...
+              </h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400">
+                Loading LeetCode stats and HackerRank badges for all users
+              </p>
+              <div className="mt-3 mb-4">
+                <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
+                  {fetchedCount} / {mockUsers.length} users fetched
+                </p>
+                <div className="w-64 bg-slate-200 dark:bg-slate-700 rounded-full h-2 mx-auto mt-2">
+                  <div 
+                    className="bg-blue-600 dark:bg-blue-400 h-2 rounded-full transition-all duration-300 ease-out"
+                    style={{ width: `${(fetchedCount / mockUsers.length) * 100}%` }}
+                  ></div>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center justify-center space-x-2">
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* Leaderboard Cards */
+          <div className="space-y-4">
+            {filteredUsers.map((user, index) => (
+              <LeaderboardCard
+                key={user.id}
+                user={user}
+                rank={index + 1}
+                onClick={() => handleUserClick(user)}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Modal */}
@@ -156,6 +225,23 @@ const Index = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
       />
+      
+      {/* Watermark Footer */}
+      <footer className="mt-16 py-8 border-t border-slate-200 dark:border-slate-700">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Made with ❤️ by{' '}
+              <span className="font-semibold text-slate-700 dark:text-slate-300">
+                Yuvaraj
+              </span>
+            </p>
+            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+              KA2k25 - Competitive Programming Leaderboard
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
