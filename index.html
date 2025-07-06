@@ -6,59 +6,97 @@
     <title>KA2025 Leaderboard</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
             <div class="header-left">
-                <i class="fas fa-trophy"></i>
+                <div class="logo">
+                    <i class="fas fa-trophy"></i>
+                </div>
                 <div class="header-title">
                     <h1>KA2025 Leaderboard</h1>
                     <p>Real-time competitive programming rankings</p>
                 </div>
             </div>
             <div class="header-right">
-                <button id="refresh-btn"><i class="fas fa-sync-alt"></i> <span>Refresh</span></button>
-                <div class="users-info">
-                    <i class="fas fa-users"></i>
-                    <span id="user-count">0</span> Users
+                <div class="header-actions">
+                    <button id="refresh-btn" class="btn btn-icon">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="btn-text">Refresh</span>
+                    </button>
+                    <button id="theme-toggle-btn" class="btn btn-icon">
+                        <i class="fas fa-sun"></i>
+                    </button>
                 </div>
-                <div class="live-status">
-                    <span class="live-dot"></span> Live
+                <div class="header-info">
+                    <div class="users-info info-badge">
+                        <i class="fas fa-users"></i>
+                        <span id="user-count">0</span>
+                    </div>
+                    <div class="live-status info-badge">
+                        <span class="live-dot"></span>
+                        <span>Live</span>
+                    </div>
+                    <div class="last-updated info-badge">
+                        <i class="fas fa-clock"></i>
+                        <span id="last-updated">Just now</span>
+                    </div>
                 </div>
-                <button id="theme-toggle-btn"><i class="fas fa-sun"></i></button>
-                <span id="last-updated"></span>
             </div>
         </header>
 
         <main>
             <div class="toolbar">
-                <div class="filter-controls">
-                    <i class="fas fa-filter"></i>
-                    <input type="text" id="search-input" placeholder="Filter by name or ID...">
+                <div class="search-control">
+                    <div class="search-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <input type="text" id="search-input" placeholder="Search by name or ID...">
+                    <div class="search-clear" id="search-clear">
+                        <i class="fas fa-times"></i>
+                    </div>
                 </div>
-                <div class="sort-by">
+                <div class="sort-control">
                     <label for="sort-select">Sort by:</label>
-                    <select id="sort-select">
-                        <option value="leetcode">LeetCode Problems</option>
-                        <option value="hackerrank">HackerRank Badges</option>
-                    </select>
+                    <div class="select-wrapper">
+                        <select id="sort-select">
+                            <option value="leetcode">LeetCode Problems</option>
+                            <option value="hackerrank">HackerRank Badges</option>
+                        </select>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
                 </div>
             </div>
 
-            <div id="leaderboard-skeleton" class="leaderboard-grid">
-                <!-- Skeleton loaders will be injected here -->
-            </div>
-            <div id="leaderboard" class="leaderboard-grid">
-                <!-- Leaderboard cards will be injected here -->
+            <div class="content-wrapper">
+                <div id="leaderboard-skeleton" class="leaderboard-grid">
+                    <!-- Skeleton loaders will be injected here -->
+                </div>
+                <div id="leaderboard" class="leaderboard-grid">
+                    <!-- Leaderboard cards will be injected here -->
+                </div>
+                <div id="empty-state" class="empty-state">
+                    <i class="fas fa-user-slash"></i>
+                    <h3>No users found</h3>
+                    <p>Try adjusting your search criteria</p>
+                </div>
             </div>
         </main>
     </div>
 
     <div id="user-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div id="modal-body"></div>
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <div class="modal-content">
+                <button class="close-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div id="modal-body"></div>
+            </div>
         </div>
     </div>
 
