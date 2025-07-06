@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Watermark Protection
+    const watermark = document.querySelector('.watermark');
+    if (watermark) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (!document.body.contains(watermark)) {
+                    document.body.appendChild(watermark);
+                }
+            });
+        });
+
+        observer.observe(document.body, {
+            childList: true,
+            subtree: true
+        });
+    }
+    
     const API_KEY = 'Juru5leUgcWdxlkYlcQWrU5dJQyEQzin';
     const BASE_URL = 'https://gsheet.js.tnhost.in/api/google-sheets/2/data/';
 
