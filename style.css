@@ -94,14 +94,14 @@ header {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-color);
-    margin-bottom: 0.25rem;
+    /* margin-bottom: 0.25rem; */
 }
 
-.header-title p {
+/* .header-title p {
     font-size: 0.875rem;
     color: var(--text-color-secondary);
     margin: 0;
-}
+} */
 
 .header-right {
     display: flex;
